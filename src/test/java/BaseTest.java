@@ -42,7 +42,8 @@ public class BaseTest {
 
     @BeforeSuite
     static void setupClass() {
-        WebDriverManager.chromedriver().setup();
+        //WebDriverManager.chromedriver().setup();
+        WebDriverManager.edgedriver().setup();
     }
 
     @BeforeMethod
@@ -51,40 +52,43 @@ public class BaseTest {
         //Chrome Options
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--remote-allow-origins=*");
+        EdgeOptions options= new EdgeOptions();
+        options.addArguments("--remote-allow-origins=*");
 
         //Manage Browser - wait for 10 seconds before failing/quitting
 //        driver = new ChromeDriver(options);
+        driver = new EdgeDriver(options);
     //    driver = pickBrowser(System.getProperty("browser"));
-        threadDriver.set(pickBrowser(System.getProperty("browser")));
+    //    threadDriver.set(pickBrowser(System.getProperty("browser")));
 
     //    driver2 = pickBrowser(System.getProperty("browser"));
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    //    wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 //       driver.manage().window().maximize();
 
-    //    actions = new Actions(driver);
-        actions = new Actions(getDriver());
+        actions = new Actions(driver);
+//        actions = new Actions(getDriver());
 
         //Navigate to Url
         url = BaseUrl;
         navigatorUrl();
     }
 
-    public static WebDriver getDriver(){
-        return threadDriver.get();
-    }
-
-    @AfterMethod
-    public void tearDown(){
-        threadDriver.get().close();
-        threadDriver.remove();
-    }
+//    public static WebDriver getDriver(){
+//        return threadDriver.get();
+//    }
 
 //    @AfterMethod
-//    public void closeBrowser(){
-//        driver.quit();
+//    public void tearDown(){
+//        threadDriver.get().close();
+//        threadDriver.remove();
 //    }
+
+    @AfterMethod
+    public void closeBrowser(){
+        driver.quit();
+    }
 
 
     void provideEmail(String email){
@@ -111,8 +115,8 @@ public class BaseTest {
 
     //Helper Method
     public void navigatorUrl(){
-//        driver.get(url);
-        getDriver().get(url);
+        driver.get(url);
+//        getDriver().get(url);
     }
 
     /*
@@ -152,74 +156,74 @@ public class BaseTest {
 //        }
     }
 */
-    public WebDriver pickBrowser(String browser) throws MalformedURLException {
-
-        DesiredCapabilities caps = new DesiredCapabilities();
-        String gridUrl = "http://192.168.0.16:4444/";
-
-        switch (browser){
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.addArguments("--remote-allow-origins=*");
-                return driver = new FirefoxDriver(firefoxOptions);
-
-            case "MicrosoftEdge":
-                WebDriverManager.edgedriver().setup();
-                EdgeOptions edgeOptions= new EdgeOptions();
-                edgeOptions.addArguments("--remote-allow-origins=*");
-                return driver = new EdgeDriver(edgeOptions);
-
-            case "grid-edge": //gradle clean test -Dbrowser=grid-edge
-                caps.setCapability("browserName", "MicrosoftEdge");
-                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
-
-            case "grid-firefox": //gradle clean test -Dbrowser=grid-firefox
-                caps.setCapability("browserName", "firefox");
-                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
-
-            case "grid-chrome": //gradle clean test -Dbrowser=grid-chrome
-                caps.setCapability("browserName", "chrome");
-                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
-
-            case "cloud":    //gradle clean test -Dbrowser=grid-cloud
-                return lambDaTest();
-
-            default:
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--remote-allow-origins=*");
-                return driver = new ChromeDriver(chromeOptions);
-        }
-    }
-
-    public WebDriver lambDaTest() throws MalformedURLException{
-        String hubUrl = "https://hun.lambdatest.com/wd/hub";
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-
-//        ChromeOptions browserOptions = new ChromeOptions();
-//        browserOptions.setPlatformName("Windows 11");
-//        browserOptions.setBrowserVersion("121.0");
-
-        capabilities.setCapability("browserName", "chrome");
-        capabilities.setCapability("browserVersion", "121.0");
-
-        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
-        ltOptions.put("username", "magiclogiclu");
-        ltOptions.put("accessKey", "JLZPlaaZpjpkOofHN9yfGXrCXUO0GkRWCaX854MPEyjHawNwNv");
-        ltOptions.put("geoLocation", "CA");
-        ltOptions.put("visual", true);
-        ltOptions.put("video", true);
-        ltOptions.put("project", "Untitled");
-        ltOptions.put("selenium_version", "4.5.0");
-        ltOptions.put("driver_version", "121.0");
-        ltOptions.put("w3c", true);
-        ltOptions.put("plugin", "java-testNG");
-//        browserOptions.setCapability("LT:Options", ltOptions);
-        capabilities.setCapability("LT:Options", ltOptions);
-
-        return new RemoteWebDriver(new URL(hubUrl), capabilities);
-    }
+//    public WebDriver pickBrowser(String browser) throws MalformedURLException {
+//
+//        DesiredCapabilities caps = new DesiredCapabilities();
+//        String gridUrl = "http://192.168.0.16:4444/";
+//
+//        switch (browser){
+//            case "firefox":
+//                WebDriverManager.firefoxdriver().setup();
+//                FirefoxOptions firefoxOptions = new FirefoxOptions();
+//                firefoxOptions.addArguments("--remote-allow-origins=*");
+//                return driver = new FirefoxDriver(firefoxOptions);
+//
+//            case "MicrosoftEdge":
+//                WebDriverManager.edgedriver().setup();
+//                EdgeOptions edgeOptions= new EdgeOptions();
+//                edgeOptions.addArguments("--remote-allow-origins=*");
+//                return driver = new EdgeDriver(edgeOptions);
+//
+//            case "grid-edge": //gradle clean test -Dbrowser=grid-edge
+//                caps.setCapability("browserName", "MicrosoftEdge");
+//                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+//
+//            case "grid-firefox": //gradle clean test -Dbrowser=grid-firefox
+//                caps.setCapability("browserName", "firefox");
+//                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+//
+//            case "grid-chrome": //gradle clean test -Dbrowser=grid-chrome
+//                caps.setCapability("browserName", "chrome");
+//                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+//
+//            case "cloud":    //gradle clean test -Dbrowser=grid-cloud
+//                return lambDaTest();
+//
+//            default:
+//                WebDriverManager.chromedriver().setup();
+//                ChromeOptions chromeOptions = new ChromeOptions();
+//                chromeOptions.addArguments("--remote-allow-origins=*");
+//                return driver = new ChromeDriver(chromeOptions);
+//        }
+//    }
+//
+//    public WebDriver lambDaTest() throws MalformedURLException{
+//        String hubUrl = "https://hun.lambdatest.com/wd/hub";
+//
+//        DesiredCapabilities capabilities = new DesiredCapabilities();
+//
+////        ChromeOptions browserOptions = new ChromeOptions();
+////        browserOptions.setPlatformName("Windows 11");
+////        browserOptions.setBrowserVersion("121.0");
+//
+//        capabilities.setCapability("browserName", "chrome");
+//        capabilities.setCapability("browserVersion", "121.0");
+//
+//        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+//        ltOptions.put("username", "magiclogiclu");
+//        ltOptions.put("accessKey", "JLZPlaaZpjpkOofHN9yfGXrCXUO0GkRWCaX854MPEyjHawNwNv");
+//        ltOptions.put("geoLocation", "CA");
+//        ltOptions.put("visual", true);
+//        ltOptions.put("video", true);
+//        ltOptions.put("project", "Untitled");
+//        ltOptions.put("selenium_version", "4.5.0");
+//        ltOptions.put("driver_version", "121.0");
+//        ltOptions.put("w3c", true);
+//        ltOptions.put("plugin", "java-testNG");
+////        browserOptions.setCapability("LT:Options", ltOptions);
+//        capabilities.setCapability("LT:Options", ltOptions);
+//
+//        return new RemoteWebDriver(new URL(hubUrl), capabilities);
+//    }
 
 }

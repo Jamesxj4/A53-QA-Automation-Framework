@@ -35,10 +35,10 @@ LoginTests extends BaseTest {
 //    }
     @Test
     public void loginWithCorrectCredentials(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        HomePage homePage = new HomePage(getDriver());
-//        LoginPage loginPage = new LoginPage(driver2);
-//        HomePage homePage = new HomePage(driver2);
+//        LoginPage loginPage = new LoginPage(getDriver());
+//        HomePage homePage = new HomePage(getDriver());
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
 
         loginPage.login();
         //Assert
@@ -46,8 +46,10 @@ LoginTests extends BaseTest {
     }
     @Test
     public void loginWithCorrectCredentials2(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        HomePage homePage = new HomePage(getDriver());
+//        LoginPage loginPage = new LoginPage(getDriver());
+//        HomePage homePage = new HomePage(getDriver());
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
 
         loginPage.login();
         //Assert
@@ -55,8 +57,10 @@ LoginTests extends BaseTest {
     }
     @Test
     public void loginWithCorrectCredentials3(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        HomePage homePage = new HomePage(getDriver());
+//        LoginPage loginPage = new LoginPage(getDriver());
+//        HomePage homePage = new HomePage(getDriver());
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
 
         loginPage.login();
         //Assert
@@ -64,8 +68,10 @@ LoginTests extends BaseTest {
     }
     @Test
     public void loginWithCorrectCredentials4(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        HomePage homePage = new HomePage(getDriver());
+//        LoginPage loginPage = new LoginPage(getDriver());
+//        HomePage homePage = new HomePage(getDriver());
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
 
         loginPage.login();
         //Assert

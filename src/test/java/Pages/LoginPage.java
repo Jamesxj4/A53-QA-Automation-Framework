@@ -4,6 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class LoginPage extends BasePage{
 
@@ -28,8 +31,13 @@ public class LoginPage extends BasePage{
 
     By submitBtn = By.cssSelector("button[type='submit']");
 
+    By notification = By.cssSelector("img.avatar");
+
     //Page Methods Using Page Factory
     //public void provideEmailToLogin(String email){
+
+
+
     public LoginPage provideEmailToLogin(String email){
         emailTextField.sendKeys(email);
         return this;
@@ -56,12 +64,16 @@ public class LoginPage extends BasePage{
     public void clickSubmit(){
         findElementUsingByLocator(submitBtn).click();
     }
+    public void loggedIn() {
+        Assert.assertTrue(findElementUsingByLocator(notification).isDisplayed());
 
+    }
     public void login(){
         provideEmail("demo@class.com");
         providePassword("te$t$tudent");
         clickSubmit();
         //System.out.println("Login button clicked");
     }
+
 
 }

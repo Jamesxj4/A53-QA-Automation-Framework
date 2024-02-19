@@ -1,9 +1,10 @@
 Feature: Login Feature
 
-  Scenario: Login Success
+  Scenario Outline: Login Success
     Given I open login page
-    When I enter email "demo@class.com"
-    And I enter password "te$t$tudent"
-    And I submit
+    When I login with valid email <email> and password <password>
     Then I am logged in
+    Examples:
+      | email            | password      |
+      | "demo@class.com" | "te$t$tudent" |
 

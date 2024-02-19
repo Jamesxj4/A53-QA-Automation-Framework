@@ -7,68 +7,69 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.lang3.exception.ExceptionContext;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import pageObjects.LoginPage;
+import Pages.LoginPage;
 
 import java.time.Duration;
 
 public class LoginStepDefinitions {
 
-    WebDriver driver;
+    static WebDriver driver;
     WebDriverWait wait;
+//static final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
+//    private WebDriver driver = null;
 
+    String BaseUrl = "https://qa.koel.app/";
 
+//    public static WebDriver getThreadLocal() {
+//        return threadLocal.get();
+//    }
 
     @Before
     public void iOpenBrowser() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
+//        WebDriverManager.chromedriver().setup();
+        WebDriverManager.edgedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+        EdgeOptions options= new EdgeOptions();
         options.addArguments("--disable-notifications");
         options.addArguments("--remote-allow-origins=*");
-        driver = new ChromeDriver(options);
+//        driver = new ChromeDriver(options);
+        driver = new EdgeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //threadLocal.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @After
     public void clearBrowser(){
         driver.quit();
     }
+//    public void tearDown() {
+//        threadLocal.get().close();
+//        threadLocal.remove();
+//    }
 
     @Given("I open login page")
     public void iOpenLogin() {
         //driver.get("https://qa.koel.app/");
-        LoginPage.openLogin();
+        //LoginPage.openLogin();
+        driver.get(BaseUrl);
     }
 
-    @When("I enter email {string}")
-    public void iEnterEmail(String email) {
+    @When("I login with valid email {string} and password {string}")
+    public void iLogin(String email, String password) {
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']"))).sendKeys(email);
-        LoginPage.enterEmail(email);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.provideEmail(email);
+        loginPage.providePassword(password);
+        loginPage.clickSubmit();
     }
-
-    @And("I enter password {string}")
-    public void iEnterPassword(String password) {
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']"))).sendKeys(password);
-        LoginPage.enterPassword(password);
-    }
-
-    @And("I submit")
-    public void iSubmit() {
-        //wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[type='submit']"))).click();
-        LoginPage.submit();
-    }
-
-    @Then("I am logged in")
-    public void iAmLoggedIn() {
-        //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
-        LoginPage.loggedIn();
-    }
+//    @Then("I am logged in")
+//    public void iAmLoggedIn() {
+//        LoginPage loginPage = new LoginPage(driver);
+//        //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
+//        loginPage.loggedIn();
+//    }
 }
