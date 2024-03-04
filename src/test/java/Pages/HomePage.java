@@ -13,6 +13,10 @@ public class HomePage extends BasePage{
         super(givenDriver);
     }
 
+    @FindBy(xpath = "//img[@class='avatar']")
+    public WebElement userProfileIcon;
+    @FindBy(xpath = "//i[@class='fa fa-sign-out']")
+    private WebElement logoutButton;
     @FindBy(css = "i[class='fa fa-plus-circle create']")
     private WebElement plusIcon;
     @FindBy(css = "li[data-testid='playlist-context-menu-create-smart']")
@@ -32,7 +36,7 @@ public class HomePage extends BasePage{
     @FindBy(css = "div.alertify-logs.top.right")
     private WebElement playlistCreatedMessageLocator;
     @FindBy(css = "div.success.show")
-    private WebElement successNotification;
+    public WebElement successNotification;
 
     //Page Elements
     By userAvatarIcon = By.cssSelector("img.avatar");
@@ -54,9 +58,19 @@ public class HomePage extends BasePage{
         clickNewSmartPlaylistButton();
         createAPlaylistName(playlistName);
     }
+    @SuppressWarnings("UnusedReturnValue")
+    public HomePage clickAvatarIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(userProfileIcon)).click();
+        //userProfileIcon.click();
+        return this;
+    }
+    public void clickProfileIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(userProfileIcon)).click();
+    }
     public void clickPlusIcon() {
         wait.until(ExpectedConditions.elementToBeClickable(plusIcon)).click();
     }
+
 
     public void clickNewSmartPlaylistButton() {
         wait.until(ExpectedConditions.elementToBeClickable(newSmartPlaylistButton)).click();

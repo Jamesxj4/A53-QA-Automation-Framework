@@ -31,7 +31,7 @@ public class LoginPage extends BasePage{
 
     By submitBtn = By.cssSelector("button[type='submit']");
 
-    By notification = By.cssSelector("img.avatar");
+    By notificationAvatar = By.cssSelector("img.avatar");
 
     //Page Methods Using Page Factory
     //public void provideEmailToLogin(String email){
@@ -48,6 +48,7 @@ public class LoginPage extends BasePage{
         return this;
     }
     //public void clickSubmitToLogin(){
+    @SuppressWarnings("UnusedReturnValue")
     public LoginPage clickSubmitToLogin(){
         loginButton.click();
         return this;
@@ -65,7 +66,7 @@ public class LoginPage extends BasePage{
         findElementUsingByLocator(submitBtn).click();
     }
     public void loggedIn() {
-        Assert.assertTrue(findElementUsingByLocator(notification).isDisplayed());
+        Assert.assertTrue(findElementUsingByLocator(notificationAvatar).isDisplayed());
 
     }
     public void login(){

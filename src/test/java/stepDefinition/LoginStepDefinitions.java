@@ -8,6 +8,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,14 +32,14 @@ public class LoginStepDefinitions {
 
     @Before
     public void iOpenBrowser() {
-//        WebDriverManager.chromedriver().setup();
-        WebDriverManager.edgedriver().setup();
-//        ChromeOptions options = new ChromeOptions();
-        EdgeOptions options= new EdgeOptions();
+        WebDriverManager.chromedriver().setup();
+//        WebDriverManager.edgedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+//        EdgeOptions options= new EdgeOptions();
         options.addArguments("--disable-notifications");
         options.addArguments("--remote-allow-origins=*");
-//        driver = new ChromeDriver(options);
-        driver = new EdgeDriver(options);
+        driver = new ChromeDriver(options);
+//        driver = new EdgeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         //threadLocal.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
@@ -62,14 +64,17 @@ public class LoginStepDefinitions {
     public void iLogin(String email, String password) {
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']"))).sendKeys(email);
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.provideEmail(email);
-        loginPage.providePassword(password);
-        loginPage.clickSubmit();
+//        loginPage.provideEmail(email);
+//        loginPage.providePassword(password);
+//        loginPage.clickSubmit();
+        loginPage.provideEmailToLogin(email);
+        loginPage.providePasswordToLogin(password);
+        loginPage.clickSubmitToLogin();
     }
-//    @Then("I am logged in")
-//    public void iAmLoggedIn() {
-//        LoginPage loginPage = new LoginPage(driver);
-//        //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
-//        loginPage.loggedIn();
-//    }
+    @Then("I am logged in")
+    public void iAmLoggedIn() {
+        LoginPage loginPage = new LoginPage(driver);
+        //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
+        loginPage.loggedIn();
+    }
 }
