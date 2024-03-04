@@ -3,7 +3,9 @@ import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.TestNGCucumberRunner;
 import org.testng.annotations.*;
 @CucumberOptions(
-        features = {"src/test/resources/features"}, publish = true
+        features = {"src/test/resources/features"},    publish = true
+//        features = {"src/test/resources/features/Login.feature"
+//                   ,"src/test/resources/features/Logout.feature"}, publish = true
 )
 public class CucumberRunner extends AbstractTestNGCucumberTests {
 

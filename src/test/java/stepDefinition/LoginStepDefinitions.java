@@ -74,20 +74,49 @@ public class LoginStepDefinitions {
         loginPage.providePasswordToLogin(password);
         loginPage.clickSubmitToLogin();
     }
+    @And("I login with email {string} and password {string}")
+    public void iLoginBackground(String email, String password) {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.provideEmailToLogin(email);
+        loginPage.providePasswordToLogin(password);
+        loginPage.clickSubmitToLogin();
+    }
+    @When("I login with empty email and password")
+    public void iLoginWithEmptyEmailAndPassword() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.provideEmailToLogin("");
+        loginPage.providePasswordToLogin("");
+        loginPage.clickSubmitToLogin();
+    }
     @Then("I am logged in")
     public void iAmLoggedIn() {
         LoginPage loginPage = new LoginPage(driver);
         //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
         loginPage.loggedIn();
     }
+    @Then("Log out button is existed")
+    public void logoutBthExist(){
+        HomePage homePage = new HomePage(driver);
+        homePage.showLogoutButton();
+    }
+
     @And("I click log out button")
     public void clickLogOutBtn(){
+        HomePage homePage = new HomePage(driver);
+        homePage.clickLogoutButton();
+    }
+    @When("I click logout button")
+    public void clickLogoutBtn(){
         HomePage homePage = new HomePage(driver);
         homePage.clickLogoutButton();
     }
     @Then("I am not logged in")//log out from home page
     public void iAmNotLoggedIn(){
         Assert.assertEquals(driver.getCurrentUrl(), baseUrl);
+    }
+    @Then("I am not logged in v0") //log out from profile page
+    public void iAmNotLoggedInv0(){
+        Assert.assertEquals(driver.getCurrentUrl(), BaseUrl);
     }
     @Then("I am not logged in v2") //log out from profile page
     public void iAmNotLoggedInv2(){

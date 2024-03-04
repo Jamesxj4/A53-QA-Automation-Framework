@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class HomePage extends BasePage{
 
@@ -18,7 +19,7 @@ public class HomePage extends BasePage{
     @FindBy(xpath = "//img[@class='avatar']")
     public WebElement userProfileIcon;
     @FindBy(xpath = "//a[@class='logout control']")
-    private WebElement logoutButton;
+    public WebElement logoutButton;
     @FindBy(css = "i[class='fa fa-plus-circle create']")
     private WebElement plusIcon;
     @FindBy(css = "li[data-testid='playlist-context-menu-create-smart']")
@@ -45,6 +46,7 @@ public class HomePage extends BasePage{
 
     By allSongsList = By.cssSelector("li a.songs");
     By byPlaylistCreatedMessageLocator= By.cssSelector("div.alertify-logs.top.right");
+    By logoutBtn = By.xpath("//a[@class='logout control']");
 
     //Page Methods
     public WebElement getUserAvatarIcon(){
@@ -65,6 +67,9 @@ public class HomePage extends BasePage{
         wait.until(ExpectedConditions.elementToBeClickable(userProfileIcon)).click();
         //userProfileIcon.click();
         return this;
+    }
+    public void showLogoutButton() {
+        Assert.assertTrue(findElementUsingByLocator(logoutBtn).isDisplayed());
     }
     public void clickHomeIcon() {
         wait.until(ExpectedConditions.elementToBeClickable(homeIcon)).click();

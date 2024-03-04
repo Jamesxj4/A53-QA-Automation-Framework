@@ -46,7 +46,7 @@ public class ProfileStepDefinitions {
     }
     @And("I provide new password {string}")
     public void provideNewPassword(String newPassword){
-        profilePage.enterNewPassword(newPassword);
+        profilePage.newPasswordField.sendKeys(newPassword);
     }
     @And("I click profile save button")
     public void clickSaveBtn()throws InterruptedException{
