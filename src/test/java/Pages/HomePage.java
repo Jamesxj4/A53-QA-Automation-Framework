@@ -14,8 +14,10 @@ public class HomePage extends BasePage{
     }
 
     @FindBy(xpath = "//img[@class='avatar']")
+    public WebElement homeIcon;
+    @FindBy(xpath = "//img[@class='avatar']")
     public WebElement userProfileIcon;
-    @FindBy(xpath = "//i[@class='fa fa-sign-out']")
+    @FindBy(xpath = "//a[@class='logout control']")
     private WebElement logoutButton;
     @FindBy(css = "i[class='fa fa-plus-circle create']")
     private WebElement plusIcon;
@@ -64,8 +66,17 @@ public class HomePage extends BasePage{
         //userProfileIcon.click();
         return this;
     }
+    public void clickHomeIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(homeIcon)).click();
+    }
     public void clickProfileIcon() {
         wait.until(ExpectedConditions.elementToBeClickable(userProfileIcon)).click();
+    }
+    public void clickNotificationMsg() {
+        wait.until(ExpectedConditions.elementToBeClickable(successNotification)).click();
+    }
+    public void clickLogoutButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
     }
     public void clickPlusIcon() {
         wait.until(ExpectedConditions.elementToBeClickable(plusIcon)).click();

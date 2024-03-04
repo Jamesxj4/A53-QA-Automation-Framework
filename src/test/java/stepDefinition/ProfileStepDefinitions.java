@@ -65,5 +65,17 @@ public class ProfileStepDefinitions {
         String expectedProfileMessage = "Profile updated.";
         Assert.assertEquals(profilePage.notificationShow.getText(), expectedProfileMessage);
     }
+    @And("I see successful notification")
+    public void seeSuccessfulNotification(){
+        profilePage.notificationShow.isDisplayed();
+    }
+    @And("I click notification") //removing the notification message to let log out button clickable
+    public void clickNotification(){
+        homePage.clickNotificationMsg();
+    }
+    @And("I click home icon")
+    public void clickHomeIcon(){
+        homePage.clickHomeIcon();
+    }
 
 }

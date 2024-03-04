@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import Pages.HomePage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -14,6 +15,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import Pages.LoginPage;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -25,6 +27,7 @@ public class LoginStepDefinitions {
 //    private WebDriver driver = null;
 
     String BaseUrl = "https://qa.koel.app/";
+    String baseUrl ="https://qa.koel.app/#!/home";
 
 //    public static WebDriver getThreadLocal() {
 //        return threadLocal.get();
@@ -76,5 +79,19 @@ public class LoginStepDefinitions {
         LoginPage loginPage = new LoginPage(driver);
         //Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar"))).isDisplayed());
         loginPage.loggedIn();
+    }
+    @And("I click log out button")
+    public void clickLogOutBtn(){
+        HomePage homePage = new HomePage(driver);
+        homePage.clickLogoutButton();
+    }
+    @Then("I am not logged in")//log out from home page
+    public void iAmNotLoggedIn(){
+        Assert.assertEquals(driver.getCurrentUrl(), baseUrl);
+    }
+    @Then("I am not logged in v2") //log out from profile page
+    public void iAmNotLoggedInv2(){
+        String profileUrl = "https://qa.koel.app/#!/profile";
+        Assert.assertEquals(driver.getCurrentUrl(), profileUrl);
     }
 }

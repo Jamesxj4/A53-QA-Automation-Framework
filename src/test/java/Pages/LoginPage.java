@@ -21,6 +21,8 @@ public class LoginPage extends BasePage{
     WebElement passwordTextField;
     @FindBy(css = "[type='submit']")
     WebElement loginButton;
+    @FindBy(xpath = "//a[@href='registration']")
+    private WebElement registerButton;
 
 
     //Element Locators
@@ -67,7 +69,9 @@ public class LoginPage extends BasePage{
     }
     public void loggedIn() {
         Assert.assertTrue(findElementUsingByLocator(notificationAvatar).isDisplayed());
-
+    }
+    public void notLoggedIn(){
+        Assert.assertTrue(registerButton.isDisplayed());
     }
     public void login(){
         provideEmail("demo@class.com");
