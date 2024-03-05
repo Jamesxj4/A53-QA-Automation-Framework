@@ -50,10 +50,11 @@ public class ProfileStepDefinitions {
     }
     @And("I click profile save button")
     public void clickSaveBtn()throws InterruptedException{
-        profilePage.profileSaveBtn.click();
-        //System.out.println("Profile save button clicked.");
+        profilePage.clickSaveButton();
+        //profilePage.profileSaveBtn.click();
         Thread.sleep(2000);
     }
+
     @Then("Password updates successfully")
     public void passwordUpdatesSuccessfully(){
         String expectedProfileMessage = "Profile updated.";
@@ -76,6 +77,14 @@ public class ProfileStepDefinitions {
     @And("I click home icon")
     public void clickHomeIcon(){
         homePage.clickHomeIcon();
+    }
+    @And("I update password {string} to {string}")
+    public void updatePassword(String password, String newPassword){
+        profilePage.updatePassword(password, newPassword);
+    }
+    @And("I change password {string} back to {string}")
+    public void changePasswordBack(String newPassword, String password){
+        profilePage.updatePassword(newPassword, password);
     }
 
 }

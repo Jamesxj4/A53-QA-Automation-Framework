@@ -16,7 +16,16 @@ Feature: Login Logout Info panel Feature
     And I provide new password <newPassword>
     And I click profile save button
     Then Password updates successfully
+    And I update password <newPassword> to <password>
+    Examples:
+      | email                 | password      |newPassword      |
+      | "james.lu@testpro.io" | "QnNBjg75$$"  |"QnNBjg75$$12"   |
 
+  Scenario Outline: Validate user is able to to update password and change password back
+    Given I open login page
+    When I login with valid email <email> and password <password>
+    And I update password <password> to <newPassword>
+    And I update password <newPassword> to <password>
     Examples:
       | email                 | password      |newPassword      |
       | "james.lu@testpro.io" | "QnNBjg75$$"  |"QnNBjg75$$12"   |
@@ -64,14 +73,24 @@ Feature: Login Logout Info panel Feature
     And I provide new password <newPassword>
     And I click profile save button
     And I click notification
+    And I update password <newPassword> to <password>
+    And I click notification
     And I click log out button
     Then I am not logged in v2
     Examples:
       | email                 | password      |newPassword      |
       | "james.lu@testpro.io" | "QnNBjg75$$"  |"QnNBjg75$$12"   |
 
-  Scenario: Validate user is not able to to with empty email and password
+  Scenario: Validate user is not able to to log in with empty email and password
     Given I open login page
     When I login with empty email and password
     Then I am not logged in v0
+
+  Scenario Outline: Validate user is not able to to log in with valid email and invalid password
+    Given I open login page
+    When I login with valid email <email> and password <password>
+    Then I am not logged in v0
+    Examples:
+      | email                 | password       |
+      | "james.lu@testpro.io" | "qwer1234!@#$" |
 

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 public class ProfilePage extends BasePage{
     public ProfilePage(WebDriver givenDriver){
@@ -22,6 +23,8 @@ public class ProfilePage extends BasePage{
     public WebElement profileSaveBtn;
     @FindBy(xpath = "//div[@class='success show']")
     public WebElement notificationShow;
+    @FindBy(xpath = "//img[@class='avatar']")
+    private WebElement userProfileIcon;
 
 
     public ProfilePage enterNewName(String newName){
@@ -43,5 +46,15 @@ public class ProfilePage extends BasePage{
         notificationShow.getText();
         return this;
     }
-
+    public void clickSaveButton(){
+        actions.moveToElement(findElementClickable(profileSaveBtn)).click().perform();
+    }
+    public void updatePassword(String password, String newPassword){
+        findElementVisibility(userProfileIcon).click();
+        findElementVisibility(currentPasswordField).sendKeys(password);
+        findElementVisibility(newPasswordField).sendKeys(newPassword);
+        actions.moveToElement(findElementClickable(profileSaveBtn)).click().perform();
+        String expectedProfileNotification = "Profile updated.";
+        Assert.assertEquals(findElementVisibility(notificationShow).getText(), expectedProfileNotification);
+    }
 }
