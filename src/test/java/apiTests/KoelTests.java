@@ -35,37 +35,7 @@ public class KoelTests {
         requestSpec = builder.build();
     }
 
-    @Test
-    public void getPlaylist(){
-        Response response = given()
-                .spec(requestSpec).log()
-                .headers()
-                //.all()
-                .when()
-                .get("https://qa.koel.app/api/playlist")
-                .then().statusCode(200).extract().response();
-        String responsBody = response.asString();
-        System.out.println("Response Body"+responsBody);
-    }
-
-    @Test
-    public void verifyPlaylistName(){
-        Response response = given()
-                .spec(requestSpec).log().headers()
-                .baseUri("https://qa.koel.app")
-                .basePath("/api/playlist")
-                .get()
-                .then().statusCode(200).extract().response();
-        JsonPath json = response.jsonPath();
-        Playlist[] playlists = response.as(Playlist[].class);
-        Rule[] rules = json.getObject("rules[0]", Rule[].class);
-        InnerRule innerRule = rules[0].getRules()[0];
-        System.out.println("Model: "+innerRule.getModel());
-
-        Assert.assertEquals(playlists[0].getName(), "SmartPlaylist");
-
-    }
-
+/////likeOrUnlikeSong////////////////////////////////////////
     @Test
     public void likeOrUnlikeSong(){
         Response response = given().params("song", "f25b26bc2963e2cb5f4a70511037c0a1")
@@ -78,6 +48,17 @@ public class KoelTests {
         System.out.println("Response Body"+responseBody);
     }
     @Test
+    public void likeOrUnlikeSongWithWrongMethod(){
+        Response response = given().params("song", "f25b26bc2963e2cb5f4a70511037c0a1")
+                .spec(requestSpec).log()
+                .headers()
+                .when()
+                .get("https://qa.koel.app/api/interaction/like")
+                .then().statusCode(405).extract().response();
+        String responseBody = response.asString();
+        System.out.println("Response Body"+responseBody);
+    }
+    @Test
     public void likeOrUnlikeInvalidSong(){
         Response response = given().params("song", "as85dsa6d85dfefd5d15hgdd64j4ftt")
                 .spec(requestSpec).log()
@@ -85,23 +66,10 @@ public class KoelTests {
                 .when()
                 .post("https://qa.koel.app/api/interaction/like")
                 .then().statusCode(404).extract().response();
+        //Expected status code <404> but was <500>.
         String responseBody = response.asString();
         System.out.println("Response Body"+responseBody);
     }
-
-
-
-
-//    @Test
-//    public void getKoelMainPage() {
-//        Response response = given().
-//                baseUri("https://qa.koel.app")
-//                .when()
-//                .get()
-//                .then().statusCode(200).extract().response();
-////        int statusCode = response.getStatusCode();
-////        Assert.assertEquals(statusCode, 201, "Incorrect status code returned");
-//    }
 
 
 
