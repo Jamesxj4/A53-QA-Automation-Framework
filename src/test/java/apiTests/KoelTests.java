@@ -66,6 +66,31 @@ public class KoelTests {
 
     }
 
+    @Test
+    public void likeOrUnlikeSong(){
+        Response response = given().params("song", "f25b26bc2963e2cb5f4a70511037c0a1")
+                .spec(requestSpec).log()
+                .headers()
+                .when()
+                .post("https://qa.koel.app/api/interaction/like")
+                .then().statusCode(200).extract().response();
+        String responseBody = response.asString();
+        System.out.println("Response Body"+responseBody);
+    }
+    @Test
+    public void likeOrUnlikeInvalidSong(){
+        Response response = given().params("song", "as85dsa6d85dfefd5d15hgdd64j4ftt")
+                .spec(requestSpec).log()
+                .headers()
+                .when()
+                .post("https://qa.koel.app/api/interaction/like")
+                .then().statusCode(404).extract().response();
+        String responseBody = response.asString();
+        System.out.println("Response Body"+responseBody);
+    }
+
+
+
 
 //    @Test
 //    public void getKoelMainPage() {
