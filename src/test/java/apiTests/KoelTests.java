@@ -14,6 +14,8 @@ import static io.restassured.RestAssured.requestSpecification;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
+import java.util.Arrays;
+
 public class KoelTests {
 
     RequestSpecification requestSpec;
@@ -76,12 +78,14 @@ public class KoelTests {
     public void likeMultipleSongs(){
         String[] multipleSongs= {"f25b26bc2963e2cb5f4a70511037c0a1","30c13696a68d7794b5468ee3bc9a3fa6"};
         Response response = given()
-                .params("songs", "f25b26bc2963e2cb5f4a70511037c0a1",
-                        "songs","30c13696a68d7794b5468ee3bc9a3fa6")
-//                .params("songs", multipleSongs)
-//                .params("songs", {"f25b26bc2963e2cb5f4a70511037c0a1","30c13696a68d7794b5468ee3bc9a3fa6"})
+//                .params("songs", "f25b26bc2963e2cb5f4a70511037c0a1",
+//                        "songs", "30c13696a68d7794b5468ee3bc9a3fa6")
+//                .params("songs", Arrays.toString(multipleSongs))
+                .params("songs","[f25b26bc2963e2cb5f4a70511037c0a1]")
+//                .params("songs", "{\"f25b26bc2963e2cb5f4a70511037c0a1\"}")
 //                .params("songs", "f25b26bc2963e2cb5f4a70511037c0a1").params("songs", "30c13696a68d7794b5468ee3bc9a3fa6")
-                .spec(requestSpec).log()
+                .spec(requestSpec)
+                .log()
                 .headers()
                 .when()
                 .post("https://qa.koel.app/api/interaction/batch/like")
