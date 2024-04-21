@@ -9,6 +9,7 @@
             <class name="BaseTest"/>
             <class name="apiTests.KoelTests"/>
             <class name="apiTests.KoelTestsPlaylistManagement"/>
+            <class name="apiTests.UserLoginTests"/>
         </classes>
     </test>
 </suite>

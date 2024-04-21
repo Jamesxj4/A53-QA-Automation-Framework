@@ -32,8 +32,6 @@ public class KoelTestsPlaylistManagement {
 
         requestSpec = builder.build();
     }
-
-
     @Test
     public void getKoelMainPage() {
         Response response = given().
@@ -56,6 +54,9 @@ public class KoelTestsPlaylistManagement {
                 .then().statusCode(200).extract().response();
         String responsBody = response.asString();
         System.out.println("Response Body"+responsBody);
+        if(responsBody.contains("id")){
+            System.out.println("Response body contents check: id");
+        }
     }
 
     @Test
@@ -73,5 +74,55 @@ public class KoelTestsPlaylistManagement {
         System.out.println("Model: "+innerRule.getModel());
 
         Assert.assertEquals(playlists[0].getName(), "SmartPlaylist");
+    }
+//////////////////////////////////
+    @Test
+    public void createPlaylist(){
+        Response response = given()
+                .spec(requestSpec).log()
+                .headers()
+                //.all()
+                .when()
+                .params("name", "API_autoTest01")
+                .post("https://qa.koel.app/api/playlist")
+                .then().statusCode(200).extract().response();
+        String responsBody = response.asString();
+        System.out.println("Server response with the playlist name: "+responsBody);
+        if(responsBody.contains("id")){
+          System.out.println("Response body contents check: id");
+        }
+    }
+    @Test
+    public void createPlaylistBlankName(){
+        Response response = given()
+                .spec(requestSpec).log()
+                .headers()
+                //.all()
+                .when()
+                .params("name", "")
+                .post("https://qa.koel.app/api/playlist")
+                .then().statusCode(302).extract().response();
+        //Expected status code <200> but was <302>.
+        String responsBody = response.asString();
+        System.out.println("Server response with the playlist name: "+responsBody);
+        if(responsBody.contains("id")){
+            System.out.println("Response body contents check: id");
+        }
+    }
+    @Test
+    public void createPlaylistWrongDataTypeInteger(){
+        Response response = given()
+                .spec(requestSpec).log()
+                .headers()
+                //.all()
+                .when()
+                .params("name", 12345)
+                .post("https://qa.koel.app/api/playlist")
+                .then().statusCode(200).extract().response();
+        String responsBody = response.asString();
+        System.out.println("Server response with the playlist name: "+responsBody);
+        if(responsBody.contains("id")){
+            System.out.println("Response body contents check: id");
+        }
     }
 }
